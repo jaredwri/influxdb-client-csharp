@@ -1,13 +1,8 @@
-﻿using System.Drawing;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using InfluxDB.Client;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
-using Microsoft.VisualBasic.CompilerServices;
-using NodaTime.Text;
+using InfluxDB.Common;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
     internal class WriteApi : IWriteApi
     {

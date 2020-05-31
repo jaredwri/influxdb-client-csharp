@@ -2,8 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using InfluxDB.Client.Core;
-using InfluxDB.Client.Core.Exceptions;
-using InfluxDB.Client.Writes;
+using InfluxDB.Common;
 
 namespace InfluxDB.Client
 {

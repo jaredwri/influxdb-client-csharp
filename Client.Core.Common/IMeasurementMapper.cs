@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
-
-namespace InfluxDB.Client
+﻿namespace InfluxDB.Common
 {
     public interface IMeasurementMapper
     {

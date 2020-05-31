@@ -1,4 +1,4 @@
-﻿using InfluxDB.Client.Core;
+﻿using InfluxDB.Common;
 
 namespace Client.Core.Proposal.UseCase.Models
 {

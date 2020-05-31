@@ -1,8 +1,7 @@
-﻿using InfluxDB.Client.Writes;
+﻿using InfluxDB.Common;
 using System.Threading.Tasks;
-using InfluxDB.Client.Api.Domain;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
     public interface IWriteApi
     {

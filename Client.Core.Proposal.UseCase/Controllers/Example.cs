@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Client.Core.Proposal.UseCase.Models;
 using InfluxDB.Client;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
+using InfluxDB.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +11,7 @@ namespace Client.Core.Proposal.UseCase.Controllers
     [Route("")]
     public class Example : ControllerBase
     {
+        private IServiceImplementation Service { get; }
         private ILogger Logger { get; }
         private IInfluxDBClient Client { get; }
         private IWriteApi WriteApi { get; }
@@ -20,12 +19,14 @@ namespace Client.Core.Proposal.UseCase.Controllers
         private InfluxSettings Settings { get; }
 
         public Example(
+            IServiceImplementation service,
             ILogger<Example> logger,
             IInfluxDBClient client, 
             IWriteApi writeApi,
             IMeasurementMapper measurementMapper,
             InfluxSettings settings)
         {
+            Service = service;
             Logger = logger;
             Client = client;
             WriteApi = writeApi;
@@ -38,10 +39,11 @@ namespace Client.Core.Proposal.UseCase.Controllers
         {
             try
             {
+                await Service.Login();
                 await WriteApi.WriteMeasurementAsync(WritePrecision.S, measurement);
                 return NoContent();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // logging and capturing the actual return/status codes etc.
                 return BadRequest();
@@ -53,10 +55,16 @@ namespace Client.Core.Proposal.UseCase.Controllers
             try
             {
                 var writeApi = Client.GetWriteApi();
-                await writeApi.WriteMeasurementAsync(WritePrecision.S, measurement);
+                var tasks = new Task[]
+                {
+                    Service.Logout(),
+                    writeApi.WriteMeasurementAsync(WritePrecision.S, measurement),
+                };
+                await Task.WhenAll(tasks);
+
                 return NoContent();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // logging and capturing the actual return/status codes etc.
                 return BadRequest();
@@ -76,7 +84,7 @@ namespace Client.Core.Proposal.UseCase.Controllers
                 await WriteApi.WriteRecordAsync(WritePrecision.S, record);
                 return NoContent();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // logging and capturing the actual return/status codes etc.
                 return BadRequest();

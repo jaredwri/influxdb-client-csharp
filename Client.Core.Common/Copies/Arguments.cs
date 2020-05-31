@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-namespace InfluxDB.Client.Core
+namespace InfluxDB.Common
 {
     /// <summary>
     /// Functions for parameter validation.

@@ -2,7 +2,7 @@
 using System;
 using Client.Core.Proposal;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using InfluxDB.Client.Internal;
+using InfluxDB.Common;
 
 namespace InfluxDB.Client
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using InfluxDB.Client.Core;
+using InfluxDB.Common;
 
 namespace InfluxDB.Client
 {

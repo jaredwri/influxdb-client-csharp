@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using InfluxDB.Client;
-using InfluxDB.Client.Core.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;

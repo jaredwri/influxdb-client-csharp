@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Core;
-using InfluxDB.Client.Writes;
 using NodaTime;
 
-namespace InfluxDB.Client.Internal
+namespace InfluxDB.Common
 {
     internal class PropertyInfoColumn
     {

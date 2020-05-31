@@ -2,9 +2,9 @@
 using System.Net.Http;
 using System.Text;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
-    public class LineProtocolContent : ByteArrayContent
+    internal class LineProtocolContent : ByteArrayContent
     {
         public LineProtocolContent(string lineProtocolBody)
             : base(Encoding.UTF8.GetBytes(lineProtocolBody))

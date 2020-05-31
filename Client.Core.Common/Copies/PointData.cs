@@ -4,11 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Core;
 using NodaTime;
 
-namespace InfluxDB.Client.Writes
+namespace InfluxDB.Common
 {
     /// <summary>
     /// Point defines the values that will be written to the database.

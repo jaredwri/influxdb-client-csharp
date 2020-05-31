@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InfluxDB.Client.Core;
+using InfluxDB.Common;
 
 namespace Client.Core.Proposal.UseCase.Models
 {

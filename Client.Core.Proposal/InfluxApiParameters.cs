@@ -1,4 +1,4 @@
-﻿namespace Client.Core.Proposal
+﻿namespace InfluxDB.Client
 {
     internal static class InfluxApiParameters
     {

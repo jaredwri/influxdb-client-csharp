@@ -1,4 +1,4 @@
-﻿using InfluxDB.Client.Core;
+﻿using InfluxDB.Common;
 
 namespace Client.Core.Proposal.UseCase.Models
 {
@@ -6,7 +6,7 @@ namespace Client.Core.Proposal.UseCase.Models
     public class UsageMeasurement
     {
         [Column("serialNumber", IsTag = true)]
-        public string SerialNumber { get; set; }
+        public string SerialNumber { get; set; } = string.Empty;
         [Column("quantity")]
         public int Quantity { get; set; }
     }

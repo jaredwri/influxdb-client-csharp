@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InfluxDB.Client.Core
+namespace InfluxDB.Common
 {
     /// <summary>
     /// The annotation is used for mapping POCO class into line protocol.

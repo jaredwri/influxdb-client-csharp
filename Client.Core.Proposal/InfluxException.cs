@@ -9,8 +9,9 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using InfluxDB.Client.Core.Internal;
 using Newtonsoft.Json;
+using InfluxDB.Common;
 
-namespace InfluxDB.Client.Core.Exceptions
+namespace InfluxDB.Client
 {
     public class InfluxException : Exception
     {

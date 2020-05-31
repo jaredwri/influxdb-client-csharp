@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using InfluxDB.Client.Core;
 
-namespace InfluxDB.Client.Writes
+namespace InfluxDB.Common
 {
     /// <summary>
     /// The setting for store data point: default values, threshold, ...

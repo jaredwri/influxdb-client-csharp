@@ -1,5 +1,5 @@
 ﻿using InfluxDB.Client;
-using InfluxDB.Client.Internal;
+using InfluxDB.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -51,6 +51,7 @@ namespace Client.Core.Proposal.UseCase
                     return apiClient.GetWriteApi();
                 })
                 .AddSingleton(settings)
+                .AddSingleton<IServiceImplementation, ServiceImplementation>()
                 .AddControllers()
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace InfluxDB.Client.Api.Domain
+namespace InfluxDB.Common
 {
     /// <summary>
     /// Defines WritePrecision

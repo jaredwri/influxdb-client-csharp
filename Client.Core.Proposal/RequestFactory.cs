@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using InfluxDB.Client;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
+using InfluxDB.Common;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
 
-    public interface IRequestFactory
+    internal interface IRequestFactory
     {
         HttpRequestMessage Create(string bucket, string org, WritePrecision precision, string lineProtocol);
         HttpRequestMessage Create(string bucket, string org, PointData data);
