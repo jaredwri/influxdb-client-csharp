@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using Client.Core.Proposal;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using InfluxDB.Client;
 using InfluxDB.Client.Internal;
-using InfluxDB.Client.Core.Internal;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
     internal static class Registrations
     {
-        public static void Configure(IServiceCollection services, InfluxDBClientOptions options)
+        internal static void ConfigureInfluxDB(IServiceCollection services, InfluxDBClientOptions options)
         {
             services.TryAddSingleton(options);
             services.TryAddSingleton<IMeasurementMapper, MeasurementMapper>();

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using InfluxDB.Client;
 using InfluxDB.Client.Core.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

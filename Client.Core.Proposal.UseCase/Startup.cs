@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using InfluxDB.Client;
+using InfluxDB.Client.Internal;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,11 +24,13 @@ namespace Client.Core.Proposal.UseCase
         {
 
             var settings = Configuration.GetSection("influxDb").Get<InfluxSettings>();
-
+            
             services
                 .AddHttpContextAccessor()
+                // not required to use these methods at all.  Simply convenience if a persons use case fits.
                 .AddInfluxDb(builder =>
                 {
+                    // register an IInfluxClient for use in my DI lifetime.
                     builder
                         .Org(settings.Org)
                         .Bucket(settings.Bucket)
@@ -38,6 +42,15 @@ namespace Client.Core.Proposal.UseCase
                         // i'm not proposing this stay here in any way.
                         .JitterInterval(100);
                 })
+                // this class is independently useful and I would like to use it in some cases.
+                .AddSingleton<IMeasurementMapper, MeasurementMapper>()
+                .AddSingleton(provider =>
+                {
+                    // assume I have a write only use case to a single org/bucket that is configured above.
+                    var apiClient = provider.GetRequiredService<IInfluxDBClient>();
+                    return apiClient.GetWriteApi();
+                })
+                .AddSingleton(settings)
                 .AddControllers()
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);

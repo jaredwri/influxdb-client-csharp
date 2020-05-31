@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
+using InfluxDB.Client.Writes;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Client.Core.Proposal
@@ -10,8 +10,9 @@ namespace Client.Core.Proposal
 
     public interface IRequestFactory
     {
-        HttpRequestMessage Create(string lineProtocol, string org, string bucket, WritePrecision precision);
-        HttpRequestMessage Create<T>(T measurement, string org, string bucket, WritePrecision precision) where T : class;
+        HttpRequestMessage Create(string bucket, string org, WritePrecision precision, string lineProtocol);
+        HttpRequestMessage Create(string bucket, string org, PointData data);
+        HttpRequestMessage Create<T>(string bucket, string org, WritePrecision precision, T measurement) where T : class;
     }
     internal class RequestFactory : IRequestFactory
     {
@@ -22,23 +23,27 @@ namespace Client.Core.Proposal
             Mapper = mapper;
         }
 
-        public HttpRequestMessage Create<T>(T measurement, string org, string bucket, WritePrecision precision) where T : class
+        public HttpRequestMessage Create<T>(string bucket, string org, WritePrecision precision, T measurement) where T : class
         {
-            var lineProtocol = Mapper
-                .ToPoint(measurement, precision)
-                .ToLineProtocol();
-
-            return Create(lineProtocol, org, bucket, precision);
+            var point = Mapper.ToPoint(measurement, precision);
+            return Create(bucket, org, point);
         }
 
-        public HttpRequestMessage Create(string lineProtocol, string org, string bucket, WritePrecision precision)
+        public HttpRequestMessage Create(string bucket, string org, PointData data)
+        {
+            var lineProtocol = data.ToLineProtocol();
+            return Create(bucket, org, data.Precision, lineProtocol);
+        }
+
+        public HttpRequestMessage Create(string bucket, string org, WritePrecision precision, string lineProtocol)
         {
             var body = new LineProtocolContent(lineProtocol);
 
+            // pretty sure this performs url encode on each parameter.
             var uri = QueryHelpers.AddQueryString("/api/v2/write", new Dictionary<string, string>
             {
-                {InfluxApiParameters.Query.Org, WebUtility.UrlEncode(org)},
-                {InfluxApiParameters.Query.Bucket, WebUtility.UrlEncode(bucket)},
+                {InfluxApiParameters.Query.Org, org},
+                {InfluxApiParameters.Query.Bucket, bucket},
                 {InfluxApiParameters.Query.Precision, precision.ToString().ToLower()},
             });
 

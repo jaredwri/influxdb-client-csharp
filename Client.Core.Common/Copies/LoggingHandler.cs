@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,12 +16,10 @@ namespace InfluxDB.Client.Core.Internal
     public class LoggingHandler
     {
         public LogLevel Level { get; set; }
-        private ILogger Logger { get; }
-
-        public LoggingHandler(LogLevel logLevel, ILogger logger)
+        
+        public LoggingHandler(LogLevel logLevel)
         {
             Level = logLevel;
-            Logger = logger;
         }
 
         private static IEnumerable<(string Name, string Value)> ToEnumerable(string query)
@@ -66,7 +61,6 @@ namespace InfluxDB.Client.Core.Internal
             var isBody = Level == LogLevel.Body;
             var isHeader = isBody || Level == LogLevel.Headers;
 
-            Logger.LogDebug($"--> {request.Method} {request.RequestUri.AbsolutePath}");
             Trace.WriteLine($"--> {request.Method} {request.RequestUri.AbsolutePath}");
 
             if (isHeader)
@@ -84,32 +78,16 @@ namespace InfluxDB.Client.Core.Internal
 
                 var body = request.Content;
 
-                //var body = request.Parameters.FirstOrDefault(parameter =>
-                //    parameter.Type.Equals(ParameterType.RequestBody));
-
                 if (body != null)
                 {
                     var stringBody = await request.Content.ReadAsStringAsync();
-
-                    //if (body.Value is byte[] bytes)
-                    //{
-                    //    stringBody = Encoding.UTF8.GetString(bytes);
-                    //}
-                    //else
-                    //{
-                    //    stringBody = body.Value.ToString();
-                    //}
-
+                    
                     Trace.WriteLine($"--> Body: {stringBody}");
-                    Logger.LogDebug($"--> Body: {stringBody}");
                 }
             }
 
             Trace.WriteLine("--> END");
             Trace.WriteLine("-->");
-
-            Logger.LogDebug("--> END");
-            Logger.LogDebug("-->");
         }
 
         public object AfterIntercept(int statusCode, Func<HttpResponseHeaders> headers, object body)
@@ -124,12 +102,10 @@ namespace InfluxDB.Client.Core.Internal
             var isHeader = isBody || Level == LogLevel.Headers;
 
             Trace.WriteLine($"<-- {statusCode}");
-            Logger.LogDebug($"<-- {statusCode}");
 
             if (isHeader)
             {
                 LogHeaders(ToHeaders(headers.Invoke()),"<--");
-                //LogHeaders(headers.Invoke(), "<--");
             }
 
             if (isBody && body != null)
@@ -152,13 +128,11 @@ namespace InfluxDB.Client.Core.Internal
                 if (!string.IsNullOrEmpty(stringBody))
                 {
                     Trace.WriteLine($"<-- Body: {stringBody}");
-                    Logger.LogDebug($"<-- Body: {stringBody}");
                 }
             }
 
 
             Trace.WriteLine("<-- END");
-            Logger.LogDebug("< --END");
             return freshBody;
         }
 
@@ -169,7 +143,6 @@ namespace InfluxDB.Client.Core.Internal
             foreach (var emp in values)
             {
                 Trace.WriteLine($"{direction} {type}: {emp.Name}={emp.Value}");
-                Logger.LogDebug($"{direction} {type}: {emp.Name}={emp.Value}");
             }
         }
     }

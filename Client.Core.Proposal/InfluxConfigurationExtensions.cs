@@ -1,8 +1,7 @@
-﻿using Client.Core.Proposal;
-using System;
-using System.Runtime.CompilerServices;
+﻿using System;
+using InfluxDB.Client;
 
-
+// changed namespace to that of the IServiceCollection to allow for discoverability without using statements.
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class InfluxConfigurationExtensions
@@ -13,9 +12,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = InfluxDBClientOptions.Builder.CreateNew();
             options(builder);
-
             var configured = builder.Build();
-            Registrations.Configure(services, configured);
+
+            var client = new InfluxDBClient(configured);
+            services.AddSingleton<IInfluxDBClient>(client);
             
             return services;
         }

@@ -19,7 +19,7 @@ namespace InfluxDB.Client.Internal
     }
 
 
-    internal class MeasurementMapper : IMeasurementMapper
+    public class MeasurementMapper : IMeasurementMapper
     {
         private IDictionary<string, PropertyInfoColumn[]> CACHE = new ConcurrentDictionary<string, PropertyInfoColumn[]>();
 

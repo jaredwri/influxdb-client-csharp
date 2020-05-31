@@ -5,7 +5,7 @@ using InfluxDB.Client.Core;
 using InfluxDB.Client.Core.Exceptions;
 using InfluxDB.Client.Writes;
 
-namespace Client.Core.Proposal
+namespace InfluxDB.Client
 {
     /// <summary>
     /// InfluxDBClientOptions are used to configure the InfluxDB 2.0 connections.
