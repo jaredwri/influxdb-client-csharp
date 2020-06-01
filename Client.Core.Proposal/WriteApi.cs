@@ -60,7 +60,7 @@ namespace InfluxDB.Client
         public async Task WriteRecordAsync(WritePrecision precision, string record)
         {
             // these will throw null reference if the builder doesn't assert configured options.
-            await WriteRecordAsync(Options.Bucket, Options.Org, WritePrecision.S, record);
+            await WriteRecordAsync(Options.Bucket, Options.Org, precision, record);
         }
 
         public async Task WriteRecordAsync(string bucket, string org, WritePrecision precision, string record)
